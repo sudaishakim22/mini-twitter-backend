@@ -51,6 +51,20 @@ app.get("/tweet", async (req, res) => {
   }
 });
 
+app.post("/tweet/sort", async (req, res) => {
+  const { type } = req.body;
+
+  try {
+    const allTweets = await pool.query(
+      `SELECT * FROM tweet ORDER BY create_at ${type}`
+    );
+    res.json(allTweets.rows);
+  } catch (error) {
+    console.log(error.message);
+    res.send(error.message);
+  }
+});
+
 /// get all tweet by userId
 
 app.get("/user/tweet/:id", async (req, res) => {
